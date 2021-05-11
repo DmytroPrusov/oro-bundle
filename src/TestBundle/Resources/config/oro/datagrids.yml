@@ -1,0 +1,106 @@
+datagrids:
+    items-grid:
+        extended_entity_name: 'TestBundle\Entity\Test'
+        inline_editing:
+            enable: true
+        acl_resource: oro_test_view
+        source:
+            type: orm
+            query:
+                select:
+                    - a.id
+                    - a.name
+                    - a.createdAt
+                    - a.updatedAt
+                from:
+                    - { table: 'TestBundle\Entity\Test', alias: a }
+        properties:
+            id: ~
+            owner: ~
+            view_link:
+                type:       url
+                route:      oro_test_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      oro_test_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oro_test_delete_account
+                params:     [ id ]
+        columns:
+            id:
+                label:         oro.account.id.label
+                renderable:    false
+            name:
+                label:         oro.account.name.label
+            contactName:
+                label:         oro.account.contact.name
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+        fields_acl:
+            columns:
+                name:
+                    data_name: a.name
+                createdAt:
+                    data_name: a.createdAt
+                updatedAt:
+                    data_name: a.updatedAt
+        sorters:
+            columns:
+                id:
+                    data_name: a.id
+                name:
+                    data_name: a.name
+                createdAt:
+                    data_name: a.createdAt
+                updatedAt:
+                    data_name: a.updatedAt
+            default:
+                name: ASC
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: a.name
+                createdAt:
+                    type:      datetime
+                    data_name: a.createdAt
+                updatedAt:
+                    type:      datetime
+                    data_name: a.updatedAt
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  oro_test_view
+                label:         oro.grid.action.view
+                icon:          eye
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  oro_test_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  oro_account_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+                defaultMessages:
+                    confirm_content: oro.ui.delete_confirm_cascade
+                    confirm_content_params:
+                        entity_label: '@translator->trans(oro.account.entity_label)'
+
+        mass_actions:
+            merge:
+                type: merge
+                entity_name: 'TestBundle\Entity\Test'
+                data_identifier: a.id

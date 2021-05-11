@@ -1,0 +1,2 @@
+bundles:
+    - { name: TestBundle\TestBundle, priority: 500 }
